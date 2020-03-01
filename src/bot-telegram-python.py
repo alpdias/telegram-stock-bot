@@ -21,7 +21,7 @@ texto = msg[-1]['message']['text'] # recebe o texto da msg
 
 # msg de aprensetaçao
 apresentaçao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
-para te enviar mensagens sobre o mercado de ações de forma rápida e prática.'
+para te enviar informações sobre o mercado de ações de forma rápida e prática.'
 
 # menu de controles dentro do Telegram
 controles = ('Você pode me controlar enviando estes comandos: \
@@ -37,7 +37,7 @@ controles = ('Você pode me controlar enviando estes comandos: \
 invalido = f'{nome}, desculpe mais não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
 tente usar umas das opções dentro do meu menu de controle.'
 
-# funçao para enviar mensagem de apresentaçao e interaçao com o menu de controles
+# funçao para enviar mensagem de apresentaçao e a interaçao com o menu de controles
 def interaçao():
     if texto == '/start':
         bot.sendMessage(msgID, apresentaçao) # retorna uma mensagem pelo ID da conversa 
