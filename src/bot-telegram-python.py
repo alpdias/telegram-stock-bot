@@ -21,21 +21,21 @@ texto = msg[-1]['message']['text'] # recebe o texto da msg
 
 # msg de aprensetaçao
 apresentaçao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
-para te enviar informações sobre o mercado de ações de forma rápida e prática.'
+para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
 
-# menu de controles dentro do Telegram
+# msg com o menu de controles dentro do Telegram
 controles = ('Você pode me controlar enviando estes comandos: \
 \n \
 \n /cotacao - Consultar o valor de ações \
 \n /indice - Consultar o valor de índices \
 \n /dados - Info sobre a fonte de dados \
 \n /menu - Menu de comandos \
-\n /info - Informações do BOT \
+\n /info - Informações sobre \
 \n /ajuda - Obter ajuda')
 
-# msg para textos ou comandos nao compreendidos
-invalido = f'{nome}, desculpe mais não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
-tente usar umas das opções dentro do meu menu de controle.'
+# msg para textos ou comandos nao compreendidos / invalidos
+invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
+tente usar uma das opções dentro do meu menu de controles.'
 
 # funçao para enviar mensagem de apresentaçao e a interaçao com o menu de controles
 def interaçao():
