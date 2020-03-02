@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Criado em 02/2020
 Autor: Paulo https://github.com/alpdias
