@@ -47,6 +47,10 @@ def interaçao():
         bot.sendMessage()
     elif texto == '/indice':
         bot.sendMessage()
+    elif texto == '/dados':
+        bot.sendMessage()
+    elif texto ==  '/menu':
+        bot.sendMessage()
     elif texto == '/info':  
         bot.sendMessage()
     elif texto == '/ajuda':
