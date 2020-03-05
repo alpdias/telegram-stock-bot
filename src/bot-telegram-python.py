@@ -51,13 +51,13 @@ def comandos():
     elif texto == '/indice':
         bot.sendMessage(msgID, 'Qual o código do índice que você quer consultar?')
     elif texto == '/dados':
-        bot.sendMessage()
+        bot.sendMessage(msgID)
     elif texto ==  '/menu':
         bot.sendMessage(msgID, menu)
     elif texto == '/info':  
-        bot.sendMessage()
+        bot.sendMessage(msgID, )
     elif texto == '/ajuda':
-        bot.sendMessage()
+        bot.sendMessage(msgID, )
     else:
         bot.sendMessage(msgID, invalido + '\n' + '\n' + menu)
 
