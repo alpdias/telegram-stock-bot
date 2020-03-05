@@ -14,8 +14,8 @@ pt-BR </br>
 <strong>Módulos Python</strong>
 
 > pip install telepot </br>
-> import bs4 </br>
-> import requests
+> pip install bs4 </br>
+> pip install requests
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ pt-BR </br>
 <strong>Python modules</strong>
 
 > pip install telepot </br>
-> import bs4 </br>
-> import request
+> pip install bs4 </br>
+> pip install request
 
 ---------------------------------------------------------------------------------------------------------------------------------
