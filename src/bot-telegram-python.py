@@ -5,6 +5,9 @@ Autor: Paulo https://github.com/alpdias
 '''
 
 import telepot # API do Telegram
+import bs4
+import requests
+from bs4 import BeautifulSoup
 
 # token de acesso
 token = 'token'
@@ -42,15 +45,15 @@ tente usar uma das opções dentro do meu menu de controles.'
 def comandos():
     if texto == '/start':
         bot.sendMessage(msgID, apresentacao) # retorna uma mensagem pelo ID da conversa 
-        bot.sendMessage(msgID, controles)
+        bot.sendMessage(msgID, menu)
     elif texto == '/cotacao':
-        bot.sendMessage()
+        bot.sendMessage(msgID, 'Qual o código da ação que você quer consultar?')
     elif texto == '/indice':
-        bot.sendMessage()
+        bot.sendMessage(msgID, 'Qual o código do índice que você quer consultar?')
     elif texto == '/dados':
         bot.sendMessage()
     elif texto ==  '/menu':
-        bot.sendMessage()
+        bot.sendMessage(msgID, menu)
     elif texto == '/info':  
         bot.sendMessage()
     elif texto == '/ajuda':
