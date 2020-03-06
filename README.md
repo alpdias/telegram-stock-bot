@@ -13,9 +13,11 @@ pt-BR </br>
 
 <strong>Módulos Python</strong>
 
-> pip install telepot </br>
+> pip install telepot </br> 
 > pip install bs4 </br>
 > pip install requests
+
+* Utilização do módulo <strong>'telepot'</strong> https://github.com/nickoala/telepot
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -37,5 +39,8 @@ pt-BR </br>
 > pip install telepot </br>
 > pip install bs4 </br>
 > pip install request
+
+
+* Module use <strong>'telepot'</strong> https://github.com/nickoala/telepot
 
 ---------------------------------------------------------------------------------------------------------------------------------
