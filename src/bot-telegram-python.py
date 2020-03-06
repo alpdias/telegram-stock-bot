@@ -49,8 +49,8 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
 \n /ajuda - Obter ajuda')
         receberMensagens(apresentacao + '\n' + '\n' + menu)
     elif msg['text'] == '/cotacao':
-        açao = 'Qual o código da ação que você quer consultar?'
-        receberMensagens(açao)
+        acao = 'Qual o código da ação que você quer consultar?'
+        receberMensagens(acao)
     elif msg['text'] == '/indice':
         indice = 'Qual o código do índice que você quer consultar?'
         receberMensagens(indice)
