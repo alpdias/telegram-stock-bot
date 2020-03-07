@@ -11,9 +11,11 @@ pt-BR </br>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
+* Utilização do módulo <strong>'telepot'</strong> https://github.com/nickoala/telepot
+
 <strong>Módulos Python</strong>
 
-> pip install telepot </br>
+> pip install telepot </br> 
 > pip install bs4 </br>
 > pip install requests
 
@@ -31,6 +33,8 @@ Coding: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
+
+* Module use <strong>'telepot'</strong> https://github.com/nickoala/telepot
 
 <strong>Python modules</strong>
 
