@@ -34,20 +34,18 @@ def receberMensagens(texto):
 def comandos(msg):
 
     # lista com o menu de controles do BOT dentro do Telegram
-    listaComandos = ['/cotacao', '/indice', '/dados', '/menu', 'info', '/ajuda']
+    listaComandos = ['/cotacao', '/dados', '/menu', 'info', '/ajuda']
 
     # msg com o menu de controles do BOT dentro do Telegram
     menu = ('Você pode me controlar enviando esses comandos: \
 \n \
-\n /cotacao - Consultar o valor de ações \
-\n /indice - Consultar o valor de índices \
+\n /cotacao - Consultar valores \
 \n /dados - Info sobre a fonte de dados \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
 \n /ajuda - Obter ajuda')
 
     if msg['text'] == '/start': 
-
         msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
         nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
         # msg de aprensetaçao
@@ -56,29 +54,19 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
         receberMensagens(apresentacao + '\n' + '\n' + menu)
 
     elif msg['text'] == '/cotacao':
-
-        acao = 'Qual o código da ação que você quer consultar?'
+        acao = 'Qual o código da ação/índice você quer consultar?'
         receberMensagens(acao)
 
-    elif msg['text'] == '/indice':
-
-        indice = 'Qual o código do índice que você quer consultar?'
-        receberMensagens(indice)
-
     elif msg['text'] == '/dados':
-
         pass
 
     elif msg['text'] ==  '/menu':
-
         receberMensagens(menu)
 
     elif msg['text'] == '/info':  
-
         pass
 
     elif msg['text'] == '/ajuda':
-        
         pass
     
     elif msg['text'] not in listaComandos:
@@ -93,6 +81,8 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
             invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
 tente usar uma das opções dentro do meu menu de controles.'
             receberMensagens(invalido + '\n' + '\n' + menu)
+    else:
+        inesperado = 'ERRO! Atenção, ocorreu um erro inesperado dentro do código.'
 
 
 # loop para procurar novas msgs e executar as funçoes
