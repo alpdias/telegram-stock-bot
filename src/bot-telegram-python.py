@@ -57,13 +57,16 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
     elif msg['text'] == '/cotacao':
 
         # msg para receber um valor a ser utilizado no WebScraping
-        acao = 'Qual o código da ação/índice você quer consultar?'
+        acao = 'Qual o código da ação/índice que você quer consultar?'
         receberMensagens(acao)
 
     elif msg['text'] == '/dados':
 
         # msg com info sobre a fonte de dados utilizada no WebScraping
-        fonte = ''
+        fonte = 'Fonte de dados: \
+\n \
+\n \
+https://finance.yahoo.com/'
         receberMensagens(fonte)
 
     elif msg['text'] ==  '/menu':
