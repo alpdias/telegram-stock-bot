@@ -46,6 +46,7 @@ def comandos(msg):
 \n /ajuda - Obter ajuda')
 
     if msg['text'] == '/start': 
+
         msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
         nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
         # msg de aprensetaçao
@@ -54,24 +55,29 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
         receberMensagens(apresentacao + '\n' + '\n' + menu)
 
     elif msg['text'] == '/cotacao':
+
         # msg para receber um valor a ser utilizado no WebScraping
         acao = 'Qual o código da ação/índice você quer consultar?'
         receberMensagens(acao)
 
     elif msg['text'] == '/dados':
+
         # msg com info sobre a fonte de dados utilizada no WebScraping
         fonte = ''
         receberMensagens(fonte)
 
     elif msg['text'] ==  '/menu':
+
         receberMensagens(menu)
 
     elif msg['text'] == '/info':  
+
         # msg com info sobre o BOT e seu funcionamento
         info = ''
         receberMensagens(info)
 
     elif msg['text'] == '/ajuda':
+
         # msg com info de ajuda para o usuario
         ajuda = ''
         receberMensagens(info)
@@ -81,7 +87,6 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
         # WebScraping
         try:
             print('Fazer o WebScraping!!')
-
         except:
             msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
             nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
@@ -89,8 +94,11 @@ para te enviar informações sobre o mercado de ações, de forma rápida e prá
             invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
 tente usar uma das opções dentro do meu menu de controles.'
             receberMensagens(invalido + '\n' + '\n' + menu)
+
     else:
+        # msg para caso nada de certo
         inesperado = 'ERRO!'
+        receberMensagens(inesperado)
 
 
 # loop para procurar novas msgs e executar as funçoes
