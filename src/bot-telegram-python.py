@@ -30,12 +30,13 @@ def receberMensagens(texto):
     enviarMensagens(msgID, texto) 
 
 
+# funçao para realizar o WebScraping
+
+
 # funçao para buscar a ultima mensagem recebida pelo BOT e executar os comandos
 def comandos(msg):
-
     # lista com o menu de controles do BOT dentro do Telegram
     listaComandos = ['/cotacao', '/dados', '/menu', 'info', '/ajuda']
-
     # msg com o menu de controles do BOT dentro do Telegram
     menu = ('Você pode me controlar enviando esses comandos: \
 \n \
@@ -44,52 +45,39 @@ def comandos(msg):
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
 \n /ajuda - Obter ajuda')
-
     if msg['text'] == '/start': 
-
         msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
         nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
         # msg de aprensetaçao
         apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
 para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
         receberMensagens(apresentacao + '\n' + '\n' + menu)
-
     elif msg['text'] == '/cotacao':
-
         # msg para perguntar o valor a ser utilizado no WebScraping
         acao = 'Qual o código da ação/índice que você quer consultar?'
         receberMensagens(acao)
-
     elif msg['text'] == '/dados':
-
         # msg com info sobre a fonte de dados utilizada no WebScraping
         fonte = 'Fonte de dados \
 \n \
 \n \
 https://finance.yahoo.com/'
         receberMensagens(fonte)
-
     elif msg['text'] ==  '/menu':
-
         receberMensagens(menu)
-
     elif msg['text'] == '/info':  
-
         # msg com info sobre o BOT e seu funcionamento
         info = ''
         receberMensagens(info)
-
     elif msg['text'] == '/ajuda':
-
         # msg com info de ajuda para o usuario
         ajuda = ''
         receberMensagens(info)
-    
     elif msg['text'] not in listaComandos:
-
-        # WebScraping
+        # tenta realizar o WebScraping
         try:
             print('Fazer o WebScraping!!')
+        # caso ocorra erros no WebScraping
         except:
             msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
             nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
@@ -97,7 +85,6 @@ https://finance.yahoo.com/'
             invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
 tente usar uma das opções dentro do meu menu de controles.'
             receberMensagens(invalido + '\n' + '\n' + menu)
-
     else:
         # msg para caso nada de certo
         inesperado = ''
