@@ -4,12 +4,12 @@ BOT utilizando a API do Telegram, com um script em Python para gerenciar as info
 
 <strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot
 
+Andamento -> <strong>50%</strong> - <strong>Offline</strong>
+
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
 Codificação: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br> 
-
-Andamento -> <strong>50%</strong> - <strong>Offline</strong>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
@@ -29,12 +29,12 @@ BOT using the Telegram API, with a Python script to manage the information and p
 
 <strong>Talk to me:</strong> http://t.me/TraderMarketStockBot
 
+Progress -> <strong>50%</strong> - <strong>Offline</strong>
+
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
 Coding: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br>
-
-Progress -> <strong>50%</strong> - <strong>Offline</strong>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
