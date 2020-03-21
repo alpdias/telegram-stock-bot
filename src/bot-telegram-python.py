@@ -44,7 +44,7 @@ def empresas(codigo):
     nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
     empresas = f'Empresa: {nomeEmpresa} \
-\nPreço atual {codigo}: {tratamento(valorEmpresa)} - Valor em BRL'
+\nPreço atual {codigo.upper()}: {tratamento(valorEmpresa)} - Valor em BRL'
     return empresas
 
 
@@ -54,7 +54,7 @@ def indices(codigo):
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
     indices = f'Índice: {nomeIndice[2]} \
-\nValor atual {codigo}: {valorIndice}'
+\nValor atual {codigo.upper()}: {valorIndice}'
     return indices
 
 
@@ -101,12 +101,10 @@ https://finance.yahoo.com/'
     elif msg['text'] not in listaComandos:
         # tenta realizar o WebScraping
         try:
-            cotaçaoEmpresas = empresas(msg['text'])
-            receberMensagens(cotaçaoEmpresas)
+            print(empresas(msg['text']))
         except:
             try:
-                cotaçaoIndices = indices(msg['text'])
-                receberMensagens(cotaçaoIndices)
+                print(indices(msg['text']))
             except:
                 msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
                 nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
