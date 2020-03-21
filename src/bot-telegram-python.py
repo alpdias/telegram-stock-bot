@@ -23,10 +23,11 @@ def enviarMensagens(msgID, texto):
     bot.sendMessage(msgID, texto) # retorna uma mensagem pelo ID da conversa + um texto
 
 
-# funçao para receber o ID + texto para ser enviado ao BOT
+# funçao para receber o ID + nome do usuario + texto para ser enviado ao BOT
 def receberMensagens(texto):
     msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
     msgID = msg[-1]['message']['chat']['id'] # recebe o ID da conversa
+    global nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
     enviarMensagens(msgID, texto) 
 
 
@@ -57,67 +58,70 @@ def indices(codigo):
 \nValor atual {codigo.upper()}: {valorIndice}'
     return indices
 
+# lista com o menu de controles do BOT dentro do Telegram
+listaComandos = ['/cotacao', '/dados', '/menu', 'info', '/ajuda']
 
-# funçao para buscar a ultima mensagem recebida pelo BOT e executar os comandos
-def comandos(msg):
-    # lista com o menu de controles do BOT dentro do Telegram
-    listaComandos = ['/cotacao', '/dados', '/menu', 'info', '/ajuda']
-    # msg com o menu de controles do BOT dentro do Telegram
-    menu = ('Você pode me controlar enviando esses comandos: \
+# msg de aprensetaçao
+apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
+para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
+
+# msg com o menu de controles do BOT dentro do Telegram
+menu = ('Você pode me controlar enviando esses comandos: \
 \n \
 \n /cotacao - Consultar valores \
 \n /dados - Info sobre a fonte de dados \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
 \n /ajuda - Obter ajuda')
-    if msg['text'] == '/start': 
-        msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
-        nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
-        # msg de aprensetaçao
-        apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
-para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
-        receberMensagens(apresentacao + '\n' + '\n' + menu)
-    elif msg['text'] == '/cotacao':
-        # msg para perguntar o codigo a ser utilizado no WebScraping
-        acao = 'Qual o código da ação/índice que você quer consultar?'
-        receberMensagens(acao)
-    elif msg['text'] == '/dados':
-        # msg com info sobre a fonte de dados utilizada no WebScraping
-        fonte = 'Fonte de dados \
+
+# msg para perguntar o codigo a ser utilizado no WebScraping
+acao = 'Qual o código da ação/índice que você quer consultar?'
+
+# msg com info sobre a fonte de dados utilizada no WebScraping
+fonte = 'Fonte de dados \
 \n \
 \n \
 https://finance.yahoo.com/'
+
+# msg com info sobre o BOT e seu funcionamento
+info = ''
+
+# msg com info de ajuda para o usuario
+ajuda = ''
+
+# msg para textos ou comandos nao compreendidos/invalidos
+invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
+tente usar uma das opções dentro do meu menu de controles.'
+
+# msg para caso nada de certo
+inesperado = 'ERRO INESPERADO! \
+\n \
+\n \
+Desculpe, ocorreu um erro inesperado dentro do meu codígo, caso queria relatar e me ajudar selecione o comando \ajuda e envie o problema.'
+
+# funçao para buscar a ultima mensagem recebida pelo BOT e executar os comandos
+def comandos(msg):
+    if msg['text'] == '/start':
+        receberMensagens(apresentacao + '\n' + '\n' + menu)
+    elif msg['text'] == '/cotacao':
+        receberMensagens(acao)
+    elif msg['text'] == '/dados':
         receberMensagens(fonte)
     elif msg['text'] ==  '/menu':
         receberMensagens(menu)
     elif msg['text'] == '/info':  
-        # msg com info sobre o BOT e seu funcionamento
-        info = ''
         receberMensagens(info)
     elif msg['text'] == '/ajuda':
-        # msg com info de ajuda para o usuario
-        ajuda = ''
         receberMensagens(ajuda)
     elif msg['text'] not in listaComandos:
-        # tenta realizar o WebScraping
         try:
             print(empresas(msg['text']))
         except:
             try:
                 print(indices(msg['text']))
             except:
-                msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
-                nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
-                # msg para textos ou comandos nao compreendidos/invalidos
-                invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
-tente usar uma das opções dentro do meu menu de controles.'
                 receberMensagens(invalido + '\n' + '\n' + menu)
     else:
-        # msg para caso nada de certo
-        inesperado = 'ERRO INESPERADO! \
-\n \
-\n \
-Desculpe, ocorreu um erro inesperado dentro do meu codígo, caso queria relatar e me ajudar selecione o comando \ajuda e envie o problema.'
         receberMensagens(inesperado)
 
 
