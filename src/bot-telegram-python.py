@@ -78,7 +78,7 @@ def comandos(msg):
 para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
         receberMensagens(apresentacao + '\n' + '\n' + menu)
     elif msg['text'] == '/cotacao':
-        # msg para perguntar o valor a ser utilizado no WebScraping
+        # msg para perguntar o codigo a ser utilizado no WebScraping
         acao = 'Qual o código da ação/índice que você quer consultar?'
         receberMensagens(acao)
     elif msg['text'] == '/dados':
@@ -116,7 +116,10 @@ tente usar uma das opções dentro do meu menu de controles.'
                 receberMensagens(invalido + '\n' + '\n' + menu)
     else:
         # msg para caso nada de certo
-        inesperado = ''
+        inesperado = 'ERRO INESPERADO! \
+\n \
+\n \
+Desculpe, ocorreu um erro inesperado dentro do meu codígo, caso queria relatar e me ajudar selecione o comando \ajuda e envie o problema.'
         receberMensagens(inesperado)
 
 
