@@ -30,7 +30,32 @@ def receberMensagens(texto):
     enviarMensagens(msgID, texto) 
 
 
-# funçao para realizar o WebScraping
+# funçao para formatar os numeros de acordo com o padrao pt-BR
+def tratamento(n=0):
+    import locale
+    locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
+    return (locale.format_string("%.2f", n, grouping=True))
+
+
+# funçoes para realizar WebScraping
+def empresas(codigo):
+    r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
+    soup = bs4.BeautifulSoup(r.content, 'html.parser')
+    nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
+    valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
+    empresas = f'Empresa: {nomeEmpresa} \
+\nPreço atual {codigo}: {tratamento(valorEmpresa)} - Valor em BRL'
+    return empresas
+
+
+def indices(codigo):
+    r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
+    soup = bs4.BeautifulSoup(r.content, 'html.parser')
+    nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
+    valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+    indices = f'Índice: {nomeIndice[2]} \
+\nValor atual {codigo}: {valorIndice}'
+    return indices
 
 
 # funçao para buscar a ultima mensagem recebida pelo BOT e executar os comandos
@@ -72,19 +97,23 @@ https://finance.yahoo.com/'
     elif msg['text'] == '/ajuda':
         # msg com info de ajuda para o usuario
         ajuda = ''
-        receberMensagens(info)
+        receberMensagens(ajuda)
     elif msg['text'] not in listaComandos:
         # tenta realizar o WebScraping
         try:
-            print('Fazer o WebScraping!!')
-        # caso ocorra erros no WebScraping
+            cotaçaoEmpresas = empresas(msg['text'])
+            receberMensagens(cotaçaoEmpresas)
         except:
-            msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
-            nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
-            # msg para textos ou comandos nao compreendidos/invalidos
-            invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
+            try:
+                cotaçaoIndices = indices(msg['text'])
+                receberMensagens(cotaçaoIndices)
+            except:
+                msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
+                nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
+                # msg para textos ou comandos nao compreendidos/invalidos
+                invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
 tente usar uma das opções dentro do meu menu de controles.'
-            receberMensagens(invalido + '\n' + '\n' + menu)
+                receberMensagens(invalido + '\n' + '\n' + menu)
     else:
         # msg para caso nada de certo
         inesperado = ''
