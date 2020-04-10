@@ -30,12 +30,12 @@ def receberMensagens(texto):
     nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
 
     # msg de aprensetaçao
-    apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface do Telegram \
-para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
+    apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface \
+do Telegram para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
 
     # msg para textos ou comandos nao compreendidos/invalidos
-    invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas coisas, \
-tente usar uma das opções dentro do meu menu de controles.'
+    invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
+coisas, tente usar uma das opções dentro do meu menu de controles.'
 
     if texto == 'apresentacao':
         texto = apresentacao
@@ -59,7 +59,7 @@ def empresas(codigo):
     nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
     empresa = f'Empresa: {nomeEmpresa} \
-\nPreço atual {codigo.upper()}: {tratamento(valorEmpresa)} - Valor em BRL'
+\nPreço atual {codigo.upper()}: {valorEmpresa} - Valor em BRL'
     return empresa
 
 
@@ -89,19 +89,19 @@ menu = ('Você pode me controlar enviando esses comandos: \
 acao = 'Qual o código da ação/índice que você quer consultar?'
 
 # msg com info sobre a fonte de dados utilizada no WebScraping
-fonte = 'Fonte de dados: \
+fonte = 'Fonte de dados utilizada no WebScraping: \
 \n \
 \n \
 https://finance.yahoo.com/'
 
 # msg com info sobre o BOT e seu funcionamento
-info = 'Para saber mais sobre o meu funcionamento e criação, visite: \
+info = 'Para saber mais sobre o meu funcionamento e criação, visite meu repositório: \
 \n \
 \n \
 https://github.com/alpdias/bot-telegram-python'
 
 # msg com info de ajuda para o usuario
-ajuda = 'Se precisar de ajuda ou quiser relatar algum problema, entre em contato: \
+ajuda = 'Se precisar de alguma ajuda ou quiser relatar algo, entre em contato pelo Telegram: \
 \n \
 \n \
 https://t.me/alpdias'
