@@ -37,25 +37,35 @@ def receberMensagens(texto):
     apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface \
 do Telegram para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
 
+    # msg para perguntar o codigo a ser utilizado no WebScraping
+    acao = 'Você quer consultar uma ação ou um índice?'
+
     # msg para textos ou comandos nao compreendidos/invalidos
     invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
 coisas, tente usar uma das opções dentro do meu menu de controles.'
 
     if texto == 'apresentacao':
         texto = apresentacao
+
+        # acrescentar opçao de botão para fazer a pesquisa de cotaçao
+
+    elif texto == 'acao':
+        texto = acao
+
+        # acrescentar opção de consultar açao ou indice por botões
+
     elif texto == 'invalido':
         texto = invalido + '\n' + '\n' + menu
     
     enviarMensagens(msgID, texto) 
 
 
-''''
 # funçao para formatar os numeros de acordo com o padrao pt-BR
 def padrao(n=0):
     import locale
     locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
     return (locale.format_string("%.2f", n, grouping=True))
-'''
+
 
 # funçoes para realizar WebScraping
 def empresa(codigo):
@@ -64,7 +74,7 @@ def empresa(codigo):
     nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
     empresa = f'Empresa: {nomeEmpresa} \
-\nPreço atual {codigo.upper()}: {padro(valorEmpresa)} - Valor em BRL'
+\nPreço atual {codigo.upper()}: {padrao(valorEmpresa)} - Valor em BRL'
     return empresa
 
 
@@ -89,9 +99,6 @@ menu = ('Você pode me controlar enviando esses comandos: \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
 \n /ajuda - Obter ajuda')
-
-# msg para perguntar o codigo a ser utilizado no WebScraping
-acao = 'Qual o código da ação/índice que você quer consultar?'
 
 # msg com info sobre a fonte de dados utilizada no WebScraping
 fonte = 'Fonte de dados utilizada para obter as cotações: \
@@ -149,7 +156,7 @@ def comandos(msg):
     if msg['text'] == '/start':
         receberMensagens('apresentacao')
     elif msg['text'] == '/cotacao':
-        receberMensagens(acao)
+        receberMensagens('acao')
     elif msg['text'] == '/dados':
         receberMensagens(fonte)
     elif msg['text'] ==  '/menu':
