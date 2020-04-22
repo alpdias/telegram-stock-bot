@@ -6,8 +6,9 @@ Autor: Paulo https://github.com/alpdias
 
 from time import sleep
 
-# biblioteca para a API do Telegram 'telepot' https://github.com/nickoala/telepot
+# bibliotecas para a API do Telegram 'telepot' https://github.com/nickoala/telepot
 import telepot
+from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
 
 # bibliotecas utilizadas para fazer o webscraping https://github.com/alpdias/raspagem-web-python
 import bs4
@@ -21,10 +22,10 @@ token = 'token'
 bot = telepot.Bot(token)
 
 # funçao para enviar as mensagens atravez do BOT
-def enviarMensagens(msgID, texto):
+def enviarMensagens(msgID, texto, botao=''):
     bot.sendChatAction(msgID, 'typing') # mostra a açao de 'escrever' no chat
     sleep(1)
-    bot.sendMessage(msgID, texto) # retorna uma mensagem pelo ID da conversa + um texto
+    bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
 
 
 # funçao para receber o ID + nome do usuario + texto para ser enviado ao BOT
@@ -35,36 +36,36 @@ def receberMensagens(texto):
 
     # msg de aprensetaçao
     apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface \
-do Telegram para te enviar informações sobre o mercado de ações, de forma rápida e prática.'
+do Telegram para te enviar informações sobre o mercado de ações em tempo real, de forma rápida e prática.'
 
-    # msg para perguntar o codigo a ser utilizado no WebScraping
-    acao = 'Você quer consultar uma ação ou um índice?'
+    # msg para identificar o tipo da consulta no WebScraping
+    consultar = 'Você quer consultar uma ação ou um índice?'
 
     # msg para textos ou comandos nao compreendidos/invalidos
     invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
-coisas, tente usar uma das opções dentro do meu menu de controles.'
+coisas, tente usar uma das opções dentro do meu menu de comandos.'
+
+    botao = '' # variavel para receber um botao dentro da interface do telegram
 
     if texto == 'apresentacao':
+        # botao dentro da interface do telegram para a 'apresentaçao'
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Consultar Valores', callback_data='consultar')],])
         texto = apresentacao
 
-        # acrescentar opçao de botão para fazer a pesquisa de cotaçao
-
-    elif texto == 'acao':
-        texto = acao
-
-        # acrescentar opção de consultar açao ou indice por botões
+    elif texto == 'consultar':
+        texto = consultar
 
     elif texto == 'invalido':
         texto = invalido + '\n' + '\n' + menu
     
-    enviarMensagens(msgID, texto) 
+    enviarMensagens(msgID, texto, botao) 
 
 
 # funçao para formatar os numeros de acordo com o padrao pt-BR
 def padrao(n=0):
     import locale
     locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
-    return (locale.format_string("%.2f", n, grouping=True))
+    return (locale.format_string("%.2f", n, grouping=True)) # erro ao utilizar numeros com mais de quatro casas depois da virgula
 
 
 # funçoes para realizar WebScraping
@@ -88,20 +89,21 @@ def indice(codigo):
     return indice
 
 
-# lista com o menu de controles do BOT dentro do Telegram
-listaComandos = ['/cotacao', '/dados', '/menu', 'info', '/ajuda']
+# lista com o menu de comandos do BOT dentro do Telegram
+listaComandos = ['start', '/consultar', '/dados', '/menu', 'info', '/ajuda']
 
 # msg com o menu de controles do BOT dentro do Telegram
 menu = ('Você pode me controlar enviando esses comandos: \
 \n \
-\n /cotacao - Consultar valores \
+\n /start - Apresentação \
+\n /consultar - Consultar valores \
 \n /dados - Info sobre a fonte de dados \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
 \n /ajuda - Obter ajuda')
 
 # msg com info sobre a fonte de dados utilizada no WebScraping
-fonte = 'Fonte de dados utilizada para obter as cotações: \
+fonte = 'Fonte de dados utilizada para obter os valores: \
 \n \
 \n \
 https://finance.yahoo.com/'
@@ -155,8 +157,8 @@ indices = ['GSPC', 'DJI', 'IXIC', 'NYA', 'XAX', 'BUK100P', 'RUT', 'VIX', 'FTSE',
 def comandos(msg):
     if msg['text'] == '/start':
         receberMensagens('apresentacao')
-    elif msg['text'] == '/cotacao':
-        receberMensagens('acao')
+    elif msg['text'] == '/consultar':
+        receberMensagens('consultar')
     elif msg['text'] == '/dados':
         receberMensagens(fonte)
     elif msg['text'] ==  '/menu':
