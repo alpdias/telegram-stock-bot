@@ -8,7 +8,7 @@ from time import sleep
 
 # bibliotecas para a API do Telegram 'telepot' https://github.com/nickoala/telepot
 import telepot
-from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
+from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 
 # bibliotecas utilizadas para fazer o webscraping https://github.com/alpdias/raspagem-web-python
 import bs4
@@ -49,14 +49,16 @@ coisas, tente usar uma das opções dentro do meu menu de comandos.'
 
     if texto == 'apresentacao':
         # botao dentro da interface do telegram para a 'apresentaçao'
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Consultar Valores', callback_data='consultar')],])
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Consultar Valores', callback_data='consultar')]])
         texto = apresentacao
 
     elif texto == 'consultar':
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
         texto = consultar
 
     elif texto == 'invalido':
-        texto = invalido + '\n' + '\n' + menu
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Relatar Problema', url='https://t.me/alpdias')]])
+        texto = invalido + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro ou problema entre em contato com o meu desenvolvedor via Telegram, é só clicar no botão abaixo'
     
     enviarMensagens(msgID, texto, botao) 
 
