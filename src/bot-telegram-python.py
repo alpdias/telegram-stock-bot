@@ -15,114 +15,68 @@ import bs4
 import requests
 from bs4 import BeautifulSoup
 
-# token de acesso
-token = 'token'
+token = 'token' # token de acesso
 
-# Telegram BOT
-bot = telepot.Bot(token)
+bot = telepot.Bot(token) # Telegram BOT
 
-# funçao para enviar as mensagens atravez do BOT
-def enviarMensagens(msgID, texto, botao=''):
+def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens atravez do BOT
     bot.sendChatAction(msgID, 'typing') # mostra a açao de 'escrever' no chat
     sleep(1)
-    bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
+    bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao (se necessario)
 
 
-# funçao para receber o ID + nome do usuario + texto para ser enviado ao BOT
-def receberMensagens(texto):
-    msg = bot.getUpdates() # recebe a msg/info do BOT em um formato de arquivo JSON
-    msgID = msg[-1]['message']['chat']['id'] # recebe o ID da conversa
-    nome = msg[-1]['message']['from']['first_name'] # recebe o nome da pessoa que enviou a msg
-
-    # msg de aprensetaçao
-    apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface \
-do Telegram para te enviar informações sobre o mercado de ações em tempo real, de forma rápida e prática.'
-
-    # msg para identificar o tipo da consulta no WebScraping
-    consultar = 'Você quer consultar uma ação ou um índice?'
-
-    # msg para textos ou comandos nao compreendidos/invalidos
-    invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
-coisas, tente usar uma das opções dentro do meu menu de comandos.'
-
-    botao = '' # variavel para receber um botao dentro da interface do telegram
-
-    if texto == 'apresentacao':
-        # botao dentro da interface do telegram para a 'apresentaçao'
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Consultar Valores', callback_data='consultar')]])
-        texto = apresentacao
-
-    elif texto == 'consultar':
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
-        texto = consultar
-
-    elif texto == 'invalido':
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Relatar Problema', url='https://t.me/alpdias')]])
-        texto = invalido + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro ou problema entre em contato com o meu desenvolvedor via Telegram, é só clicar no botão abaixo'
-    
-    enviarMensagens(msgID, texto, botao) 
-
-
-# funçao para formatar os numeros de acordo com o padrao pt-BR
-def padrao(n=0):
+def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     import locale
     locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
-    return (locale.format_string("%.2f", n, grouping=True)) # erro ao utilizar numeros com mais de quatro casas depois da virgula
+    return (locale.format_string("%.2f", n, grouping=True))
 
 
-# funçoes para realizar WebScraping
-def empresa(codigo):
+def empresa(codigo): # funçao para realizar o WebScraping do valor de açoes de empresas no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
     empresa = f'Empresa: {nomeEmpresa} \
 \nPreço atual {codigo.upper()}: {padrao(valorEmpresa)} - Valor em BRL'
-    return empresa
+    return empresa 
 
 
-def indice(codigo):
+def indice(codigo): # funçao para realizar o WebScraping do valor de indices no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
     indice = f'Índice: {nomeIndice[2]} \
 \nValor atual {codigo.upper()}: {valorIndice} - Valor no padrão internacional'
-    return indice
+    return indice 
 
 
-# lista com o menu de comandos do BOT dentro do Telegram
-listaComandos = ['start', '/consultar', '/dados', '/menu', 'info', '/ajuda']
+listaComandos = ['/start', '/consultar', '/dados', '/menu', '/info', '/ajuda'] # lista com o menu de comandos do BOT dentro do Telegram
 
-# msg com o menu de controles do BOT dentro do Telegram
-menu = ('Você pode me controlar enviando esses comandos: \
+menu = 'Você pode me controlar enviando esses comandos: \
 \n \
 \n /start - Apresentação \
 \n /consultar - Consultar valores \
 \n /dados - Info sobre a fonte de dados \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
-\n /ajuda - Obter ajuda')
+\n /ajuda - Obter ajuda' # msg com o menu de comandos do BOT dentro do Telegram
 
-# msg com info sobre a fonte de dados utilizada no WebScraping
 fonte = 'Fonte de dados utilizada para obter os valores: \
 \n \
 \n \
-https://finance.yahoo.com/'
+https://finance.yahoo.com/' # msg com info sobre a fonte de dados utilizada no WebScraping
 
-# msg com info sobre o BOT e seu funcionamento
 info = 'Para saber mais sobre o meu funcionamento e criação, visite meu repositório no GitHub: \
 \n \
 \n \
-https://github.com/alpdias/bot-telegram-python'
+https://github.com/alpdias/bot-telegram-python' # msg com info sobre o BOT e seu funcionamento
 
-# msg com info de ajuda para o usuario
 ajuda = 'Se precisar de alguma ajuda ou quiser relatar alguma coisa, entre em contato com o meu desenvolvedor pelo Telegram: \
 \n \
 \n \
-https://t.me/alpdias'
+https://t.me/alpdias' # msg com info de ajuda para o usuario
 
-# lista com as empreas listadas na B3
 empresas = ['ABCB4','ABEV3','AGRO3','AHEB3','AHEB5','AHEB6','ALPA3','ALPA4','ALSC3','ALUP11','AMAR3','ANIM3','APTI3','APTI4','ARTR3',
 'ARZZ3','AZEV3','AZEV4','BAHI3','BAUH4','BBAS3','BBDC3','BBDC4','BBSE3','BBTG11','BDLL4','BDLL4','BEEF3','BEES3','BEES4','BGIP3',
 'BGIP4','BIOM3','BMEB3','BMEB4','BMIN3','BMIN4','BMKS3','BMTO3','BMTO4','BNBR3','BOBR4','BPAN4','BPAR3','BPHA3','BRAP3','BRAP4',
@@ -148,43 +102,62 @@ empresas = ['ABCB4','ABEV3','AGRO3','AHEB3','AHEB5','AHEB6','ALPA3','ALPA4','ALS
 'SPRI6','SSBR3','STBP11','SULA11','SULT3','SULT4','SUZB5','SUZB6','TAEE11','TCNO3','TCNO4','TECN3','TEKA3','TEKA4','TELB3','TELB4','TEMP3',
 'TENE5','TENE6','TENE7','TERI3','TGMA3','TIET11','TIMP3','TKNO3','TKNO4','TOYB3','TOYB4','TPIS3','TRPN3','TRPN3','TTS3','TUPY3','TUPY3',
 'TXRX3','TXRX4','UCAS3','UGPA3','UNIP3','UNIP5','UNIP6','USIM3','USIM5','USIM6','VAGR3','VALE3','VALE5','VIGR3','VIVT3','VIVT4','VLID3',
-'VSPT3','VULC3','VVAR11','VVAR3','WEGE3','WEGE3','WHRL3','WHRL4','WMBY3']
+'VSPT3','VULC3','VVAR11','VVAR3','WEGE3','WEGE3','WHRL3','WHRL4','WMBY3'] # lista com as empresas listadas na B3
 
-# lista com os principais indices mundiais
 indices = ['GSPC', 'DJI', 'IXIC', 'NYA', 'XAX', 'BUK100P', 'RUT', 'VIX', 'FTSE', 'GDAXI', 'FCHI', 'STOXX50E', 'N100', 'BFX', 'IMOEX.ME', 
 'N225', 'HSI', '000001.SS', 'STI', 'AXJO', 'AORD', 'BSESN', 'JKSE', 'KLSE', 'NZ50', 'KS11', 'TWII', 'GSPTSE', 'BVSP', 'MXX', 'IPSA', 'MERV', 
-'TA125.TA', 'CASE30', 'JN0U.JO']
+'TA125.TA', 'CASE30', 'JN0U.JO'] # lista com os principais indices mundiais
 
-# funçao para buscar a ultima mensagem recebida pelo BOT e executar os comandos
-def comandos(msg):
+def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo BOT e executar os comandos
+    msgID = msg['chat']['id'] # variavel para receber o ID da conversa
+    nome = msg['chat']['first_name'] # variavel para receber o nome do usuario que enviou a msg
+    botao = '' # variavel para receber um botao dentro da interface do Telegram
+
     if msg['text'] == '/start':
-        receberMensagens('apresentacao')
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Consultar Valores', callback_data='consultar')]])
+        apresentacao = f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python que usa a interface \
+do Telegram para te enviar informações sobre o mercado de ações em tempo real, de forma rápida e prática.' # msg de aprensentaçao
+        enviarMensagens(msgID, apresentacao, botao)
+
     elif msg['text'] == '/consultar':
-        receberMensagens('consultar')
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
+        consultar = 'Você quer consultar uma ação ou um índice?' # msg para identificar o tipo da consulta no WebScraping
+        enviarMensagens(msgID, consultar, botao)
+
     elif msg['text'] == '/dados':
-        receberMensagens(fonte)
+        enviarMensagens(msgID, fonte)
+
     elif msg['text'] ==  '/menu':
-        receberMensagens(menu)
+        enviarMensagens(msgID, menu)
+
     elif msg['text'] == '/info':  
-        receberMensagens(info)
+        enviarMensagens(msgID, info)
+
     elif msg['text'] == '/ajuda':
-        receberMensagens(ajuda)
+        enviarMensagens(msgID, ajuda)
+
     elif msg['text'].upper() in empresas:
         try:
             print(empresa(msg['text']))
         except IndexError:
-            receberMensagens('Desculpe, mas não encontrei essa ação com esse código, tente novamente!')
+            enviarMensagens(msgID, 'Desculpe, mas não encontrei essa ação com esse código, tente novamente!')
+
     elif msg['text'].upper() in indices:
         try:
             print(indice(msg['text']))
         except IndexError:
-                receberMensagens('Desculpe, mas não encontrei esse índice com esse código, tente novamente!')
+                enviarMensagens(msgID, 'Desculpe, mas não encontrei esse índice com esse código, tente novamente!')
+
     else:
-        receberMensagens('invalido')
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Relatar Problema', url='https://t.me/alpdias')]])
+        invalido = f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
+coisas, tente usar uma das opções dentro do meu menu de comandos.' + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro \
+ou problema entre em contato com o meu desenvolvedor via Telegram, é só clicar no botão abaixo' # msg para textos ou comandos nao compreendidos/invalidos
+        enviarMensagens(msgID, invalido, botao)
 
 
 # loop para procurar novas msgs e executar as funçoes
-bot.message_loop(comandos) 
+bot.message_loop(receberMensagens) 
 
 while True:
     pass
