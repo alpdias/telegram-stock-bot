@@ -7,7 +7,7 @@ Autor: Paulo https://github.com/alpdias
 from time import sleep
 import emoji
 
-# bibliotecas para a API do Telegram 'telepot' https://github.com/nickoala/telepot
+# bibliotecas para a API do telegram 'telepot' https://github.com/nickoala/telepot
 import telepot
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -18,9 +18,9 @@ from bs4 import BeautifulSoup
 
 token = 'token' # token de acesso
 
-bot = telepot.Bot(token) # Telegram BOT
+bot = telepot.Bot(token) # telegram bot
 
-def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens atravez do BOT
+def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens atravez do bot
     bot.sendChatAction(msgID, 'typing') # mostra a açao de 'escrever' no chat
     sleep(1)
     bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
@@ -32,7 +32,7 @@ def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     return (locale.format_string("%.2f", n, grouping=True))
 
 
-def empresa(codigo): # funçao para realizar o WebScraping do valor de açoes de empresas no site https://finance.yahoo.com/
+def empresa(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
@@ -42,7 +42,7 @@ def empresa(codigo): # funçao para realizar o WebScraping do valor de açoes de
     return empresa 
 
 
-def indice(codigo): # funçao para realizar o WebScraping do valor de indices no site https://finance.yahoo.com/
+def indice(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
@@ -52,28 +52,28 @@ def indice(codigo): # funçao para realizar o WebScraping do valor de indices no
     return indice 
 
 
-listaComandos = ['/start', '/consultar', '/dados', '/menu', '/info', '/ajuda'] # lista com o menu de comandos do BOT dentro do Telegram
+listaComandos = ['/start', '/consultar', '/dados', '/menu', '/info', '/ajuda'] # lista com o menu de comandos do bot dentro do telegram
 
 menu = (emoji.emojize('Você pode me controlar enviando esses comandos :page_with_curl: \
 \n \
-\n /start - Apresentação inicial \
+\n /start - Começar \
 \n /consultar - Consultar valores \
 \n /dados - Fonte de dados \
 \n /menu - Menu de comandos \
 \n /info - Info sobre o BOT \
-\n /ajuda - Obter ajuda', use_aliases=True)) # msg com o menu de comandos do BOT dentro do Telegram
+\n /ajuda - Obter ajuda', use_aliases=True)) # msg com o menu de comandos do bot dentro do telegram
 
 fonte = (emoji.emojize('Fonte de dados utilizada para obter os valores :chart_decreasing: \
 \n \
 \n \
-https://finance.yahoo.com/', use_aliases=True)) # msg com info sobre a fonte de dados utilizada no WebScraping
+https://finance.yahoo.com/', use_aliases=True)) # msg com info sobre a fonte de dados utilizada no webscraping
 
 info = (emoji.emojize('Para saber mais sobre o meu funcionamento e criação, visite meu repositório no GitHub :globe_showing_Americas: \
 \n \
 \n \
 https://github.com/alpdias/bot-telegram-python', use_aliases=True)) # msg com info sobre o BOT e o seu funcionamento
 
-ajuda = (emoji.emojize('Se precisar de alguma ajuda ou quiser relatar alguma coisa, entre em contato com o meu desenvolvedor pelo Telegram :mobile_phone_with_arrow: \
+ajuda = (emoji.emojize('Se precisar de alguma ajuda ou quiser relatar alguma coisa, entre em contato com o meu desenvolvedor pelo telegram :mobile_phone_with_arrow: \
 \n \
 \n \
 https://t.me/alpdias', use_aliases=True)) # msg com info de ajuda para o usuario
@@ -109,20 +109,20 @@ indices = ['GSPC', 'DJI', 'IXIC', 'NYA', 'XAX', 'BUK100P', 'RUT', 'VIX', 'FTSE',
 'N225', 'HSI', '000001.SS', 'STI', 'AXJO', 'AORD', 'BSESN', 'JKSE', 'KLSE', 'NZ50', 'KS11', 'TWII', 'GSPTSE', 'BVSP', 'MXX', 'IPSA', 'MERV', 
 'TA125.TA', 'CASE30', 'JN0U.JO'] # lista com os principais indices mundiais
 
-def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo BOT e executar os comandos
+def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot e executar os comandos
     msgID = msg['chat']['id'] # variavel para receber o ID da conversa
     nome = msg['chat']['first_name'] # variavel para receber o nome do usuario que enviou a msg
-    botao = '' # variavel para receber um botao dentro da interface do Telegram
+    botao = '' # variavel para receber o botao a ser enviado dentro da interface do telegram
 
     if msg['text'] == '/start':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Consultar Valores :magnifying_glass_tilted_left:', use_aliases=True)), callback_data='consultar')]])
-        apresentacao = (emoji.emojize(f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um BOT em Python :snake: que usa a interface \
-do Telegram para te enviar informações sobre o mercado de ações em tempo real de forma rápida e prática.', use_aliases=True)) # msg de aprensentaçao
+        apresentacao = (emoji.emojize(f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um bot em python :snake: que usa a interface \
+do telegram para te enviar informações sobre o mercado de ações em tempo real de forma rápida e prática.', use_aliases=True)) # msg de aprensentaçao
         enviarMensagens(msgID, apresentacao, botao)
 
     elif msg['text'] == '/consultar':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
-        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no WebScraping
+        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(msgID, consultar, botao)
 
     elif msg['text'] == '/dados':
@@ -141,30 +141,30 @@ do Telegram para te enviar informações sobre o mercado de ações em tempo rea
         try:
             enviarMensagens(msgID, empresa(msg['text']))
         except IndexError:
-            enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do WebScraping não funcione (não testado)
+            enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webxcraping não funcione (não testado)
 
     elif msg['text'].upper() in indices:
         try:
             enviarMensagens(msgID, indice(msg['text']))
         except IndexError:
-                enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do WebScraping não funcione (não testado)
+                enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
 
     else:
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Relatar Problema :prohibited:', use_aliases=True)), url='https://t.me/alpdias')]])
-        invalido = (emoji.emojize(f'{nome}, desculpe mas não entendi seu comando, ainda estou em construção e não consigo compreender muitas \
-coisas, tente usar uma das opções dentro do meu menu de comandos.' + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro \
-ou problema entre em contato com o meu desenvolvedor via Telegram, é só clicar no botão abaixo :backhand_index_pointing_down:', use_aliases=True)) # msg para textos ou comandos nao compreendidos/invalidos
+        invalido = (emoji.emojize(f'{nome}, desculpe mas não entendi o seu comando, ainda estou em construção e não consigo compreender muitas \
+coisas, tente usar uma das opções dentro do meu menu de comandos' + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro \
+ou problema entre em contato com o meu desenvolvedor via telegram, é só clicar no botão abaixo :backhand_index_pointing_down:', use_aliases=True)) # msg para textos ou comandos nao compreendidos/invalidos
         enviarMensagens(msgID, invalido, botao)
 
 
-def responderMensagens(msg): # funçao para interagir com os botoes do BOT dentro do Telegram
+def responderMensagens(msg): # funçao para interagir com os botoes do bot dentro do telegram
     msgID, respostaID, resposta = telepot.glance(msg, flavor='callback_query') # variaveis que recebem o 'callback query' da resposta (necessario 3 variaveis, o ID da conversa e o da resposta sao diferentes)
     
     if resposta == 'consultar':
         bot.answerCallbackQuery(msgID, text=(emoji.emojize('Carregando... :gear:', use_aliases=True))) # mostra um texto/alerta na tela do chat
         sleep(2)
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
-        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no WebScraping
+        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(respostaID, consultar, botao)
 
     elif resposta == 'consultarEmpresas':
