@@ -4,7 +4,7 @@ BOT utilizando a API do Telegram, com um script em Python para gerenciar as info
 
 <strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot
 
-Andamento -> <strong>50%</strong> - <strong>Offline</strong>
+Andamento -> <strong>90%</strong> - <strong>Offline</strong>
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
@@ -20,6 +20,7 @@ pt-BR </br>
 > pip install telepot </br> 
 > pip install bs4 </br>
 > pip install requests
+> pip install emoji
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -29,7 +30,7 @@ BOT using the Telegram API, with a Python script to manage the information and p
 
 <strong>Talk to me:</strong> http://t.me/TraderMarketStockBot
 
-Progress -> <strong>50%</strong> - <strong>Offline</strong>
+Progress -> <strong>90%</strong> - <strong>Offline</strong>
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
@@ -45,5 +46,6 @@ pt-BR </br>
 > pip install telepot </br>
 > pip install bs4 </br>
 > pip install request
+> pip install emoji
 
 ---------------------------------------------------------------------------------------------------------------------------------
