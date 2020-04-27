@@ -60,7 +60,7 @@ menu = (emoji.emojize('Você pode me controlar enviando esses comandos :page_wit
 \n /consultar - Consultar valores \
 \n /dados - Fonte de dados \
 \n /menu - Menu de comandos \
-\n /info - Info sobre o BOT \
+\n /info - Info sobre o bot \
 \n /ajuda - Obter ajuda', use_aliases=True)) # msg com o menu de comandos do bot dentro do telegram
 
 fonte = (emoji.emojize('Fonte de dados utilizada para obter os valores :chart_decreasing: \
