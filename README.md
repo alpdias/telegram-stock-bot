@@ -1,6 +1,6 @@
 # Telegram BOT usando Python
 
-BOT utilizando a API do Telegram, com um script em Python para gerenciar as informações e realizar um WebScraping para obter informações do mercado de ações.
+Python bot utilizando a API do telegram, com um script em python para gerenciar as informações e realizar um WebScraping para obter informações do mercado financeiro.
 
 <strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot
 
@@ -26,7 +26,7 @@ pt-BR </br>
 
 # Telegram BOT using Python
 
-BOT using the Telegram API, with a Python script to manage the information and perform a WebScraping to obtain stock market information.
+Python bot using the telegram API, with a python script to manage the information and perform a WebScraping to obtain information from the financial market.
 
 <strong>Talk to me:</strong> http://t.me/TraderMarketStockBot
 
