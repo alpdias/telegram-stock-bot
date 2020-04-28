@@ -29,7 +29,7 @@ def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens 
 def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     import locale
     locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
-    return (locale.format_string("%.2f", n, grouping=True))
+    return (locale.format_string("%", n, grouping=True))
 '''
 
 def empresa(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
@@ -40,13 +40,13 @@ def empresa(codigo): # funçao para realizar o webscraping no site https://finan
     del listaNomeEmpresa[0]
     nomeEmpresa = ' '.join(listaNomeEmpresa)
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
-    empresa = (emoji.emojize(f'Empresa {nomeEmpresa} :office_building: \
+    empresa = (emoji.emojize(f'Empresa :office_building: {nomeEmpresa} \
 \n\
 \n\
-Preço atual {codigo.upper()} :money_bag: \
+Preço atual {codigo.upper()} \
 \n\
 \n\
-R$ {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
+:money_bag: {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
     return empresa 
 
 
@@ -55,13 +55,13 @@ def indice(codigo): # funçao para realizar o webscraping no site https://financ
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
-    indice = (emoji.emojize(f'Índice {nomeIndice[2]} :chart_increasing: \
+    indice = (emoji.emojize(f'Índice :chart_increasing: {nomeIndice[2]} \
 \n\
 \n\
-Valor atual {codigo.upper()} :label: \
+Valor atual {codigo.upper()} \
 \n\
 \n\
-{valorIndice} - Valor em ISN', use_aliases=True))
+:label: {valorIndice} - Valor em pontos', use_aliases=True))
     return indice 
 
 
@@ -129,13 +129,15 @@ def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot
 
     if msg['text'] == '/start':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Consultar Valores :magnifying_glass_tilted_left:', use_aliases=True)), callback_data='consultar')]])
-        apresentacao = (emoji.emojize(f'Olá {nome}! Sejá bem vindo(a), eu sou o @TraderMarketStockBot, um bot em python :snake: que usa a interface \
-do telegram para te enviar informações sobre o mercado de ações em tempo real de forma rápida e prática.', use_aliases=True)) # msg de aprensentaçao
+        apresentacao = (f'Olá {nome}, sejá bem vindo(a)! \
+\n\
+\n\
+Eu sou o @TraderMarketStockBot, um bot em python que usa a interface do telegram para te enviar informações sobre o mercado financeiro em tempo real de forma rápida e prática.') # msg de aprensentaçao
         enviarMensagens(msgID, apresentacao, botao)
 
     elif msg['text'] == '/consultar':
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
-        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
+        consultar = (emoji.emojize('Você quer consultar uma ação, um índice ou uma paridade de moeda? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(msgID, consultar, botao)
 
     elif msg['text'] == '/dados':
@@ -152,20 +154,22 @@ do telegram para te enviar informações sobre o mercado de ações em tempo rea
 
     elif msg['text'].upper() in empresas:
         try:
-            enviarMensagens(msgID, empresa(msg['text']))
+            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]])
+            enviarMensagens(msgID, empresa(msg['text']), botao)
         except IndexError:
             enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webxcraping não funcione (não testado)
 
     elif msg['text'].upper() in indices:
         try:
-            enviarMensagens(msgID, indice(msg['text']))
+            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]])
+            enviarMensagens(msgID, indice(msg['text']), botao)
         except IndexError:
                 enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
 
     else:
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Relatar Problema :prohibited:', use_aliases=True)), url='https://t.me/alpdias')]])
         invalido = (emoji.emojize(f'{nome}, desculpe mas não entendi o seu comando, ainda estou em construção e não consigo compreender muitas \
-coisas, tente usar uma das opções dentro do meu menu de comandos' + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro \
+coisas, tente usar uma das opções dentro do meu menu de comandos.' + '\n' + '\n' + menu + '\n' + '\n' + 'Para informar um erro \
 ou problema entre em contato com o meu desenvolvedor via telegram, é só clicar no botão abaixo :backhand_index_pointing_down:', use_aliases=True)) # msg para textos ou comandos nao compreendidos/invalidos
         enviarMensagens(msgID, invalido, botao)
 
@@ -176,8 +180,8 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
     if resposta == 'consultar':
         bot.answerCallbackQuery(msgID, text=(emoji.emojize('Carregando... :gear:', use_aliases=True))) # mostra um texto/alerta na tela do chat
         sleep(2)
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ações', callback_data='consultarEmpresas')],[InlineKeyboardButton(text='Índices', callback_data='consultarIndices')]])
-        consultar = (emoji.emojize('Você quer consultar uma ação ou um índice? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
+        consultar = (emoji.emojize('Você quer consultar uma ação, um índice ou uma paridade de moeda? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(respostaID, consultar, botao)
 
     elif resposta == 'consultarEmpresas':
@@ -187,6 +191,16 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
     elif resposta == 'consultarIndices':
         consultarIndices = 'Qual o código do índice que você quer consultar?'
         enviarMensagens(respostaID, consultarIndices)
+
+    elif resposta == 'novaConsulta':
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
+        consultar = (emoji.emojize('Você quer consultar uma ação, um índice ou uma paridade de moeda? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
+        enviarMensagens(respostaID, consultar, botao)
+
+    elif resposta == 'consultarMoedas':
+        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
+        moeda = (emoji.emojize('Desculpe, mas está função ainda está em construção, tente realizar outra consulta por enquanto :backhand_index_pointing_down:', use_aliases=True)) # funçao a ser construida para pesquisa de paridade de moedas
+        enviarMensagens(respostaID, moeda, botao)
 
     else:
         pass
