@@ -25,20 +25,28 @@ def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens 
     sleep(1)
     bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
 
-
+'''
 def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     import locale
     locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
     return (locale.format_string("%.2f", n, grouping=True))
-
+'''
 
 def empresa(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
-    nomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text
+    listaNomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
+    del listaNomeEmpresa[0]
+    del listaNomeEmpresa[0]
+    nomeEmpresa = ' '.join(listaNomeEmpresa)
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
-    empresa = (emoji.emojize(f'Empresa {nomeEmpresa} \
-\nPreço atual {codigo.upper()} :money_bag: {padrao(valorEmpresa)} - Valor em BRL', use_aliases=True))
+    empresa = (emoji.emojize(f'Empresa {nomeEmpresa} :office_building: \
+\n\
+\n\
+Preço atual {codigo.upper()} :money_bag: \
+\n\
+\n\
+R$ {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
     return empresa 
 
 
@@ -48,7 +56,12 @@ def indice(codigo): # funçao para realizar o webscraping no site https://financ
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
     indice = (emoji.emojize(f'Índice {nomeIndice[2]} :chart_increasing: \
-\nValor atual {codigo.upper()} :label: {valorIndice} - Valor em ISN', use_aliases=True))
+\n\
+\n\
+Valor atual {codigo.upper()} :label: \
+\n\
+\n\
+{valorIndice} - Valor em ISN', use_aliases=True))
     return indice 
 
 
