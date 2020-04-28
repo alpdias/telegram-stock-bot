@@ -154,14 +154,14 @@ Eu sou o @TraderMarketStockBot, um bot em python que usa a interface do telegram
 
     elif msg['text'].upper() in empresas:
         try:
-            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]])
+            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]]) # botao para uma nova consulta
             enviarMensagens(msgID, empresa(msg['text']), botao)
         except IndexError:
             enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webxcraping não funcione (não testado)
 
     elif msg['text'].upper() in indices:
         try:
-            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]])
+            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]]) # botao para uma nova consulta
             enviarMensagens(msgID, indice(msg['text']), botao)
         except IndexError:
                 enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
@@ -199,7 +199,7 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
 
     elif resposta == 'consultarMoedas':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
-        moeda = (emoji.emojize('Desculpe, mas está função ainda está em construção, tente realizar outra consulta por enquanto :backhand_index_pointing_down:', use_aliases=True)) # funçao a ser construida para pesquisa de paridade de moedas
+        moeda = (emoji.emojize('Desculpe, mas está função ainda está em construção, tente realizar outra consulta por enquanto :backhand_index_pointing_down:', use_aliases=True)) # funçao a ser construida, para pesquisa de paridade de moedas
         enviarMensagens(respostaID, moeda, botao)
 
     else:
