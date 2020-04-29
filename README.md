@@ -1,4 +1,4 @@
-# Telegram BOT usando Python
+# Telegram bot usando Python
 
 Python bot utilizando a API do telegram, com um script em python para gerenciar as informações e realizar um WebScraping para obter informações do mercado financeiro.
 
@@ -24,7 +24,7 @@ pt-BR </br>
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-# Telegram BOT using Python
+# Telegram bot using Python
 
 Python bot using the telegram API, with a python script to manage the information and perform a WebScraping to obtain information from the financial market.
 
