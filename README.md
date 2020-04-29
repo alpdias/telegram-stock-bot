@@ -19,7 +19,7 @@ pt-BR </br>
 
 > pip install telepot </br> 
 > pip install bs4 </br>
-> pip install requests
+> pip install requests </br>
 > pip install emoji
 
 ---------------------------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ pt-BR </br>
 
 > pip install telepot </br>
 > pip install bs4 </br>
-> pip install request
+> pip install request </br>
 > pip install emoji
 
 ---------------------------------------------------------------------------------------------------------------------------------
