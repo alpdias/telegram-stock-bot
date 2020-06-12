@@ -130,7 +130,9 @@ def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot
     if msg['text'] == '/start':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Consultar Valores :magnifying_glass_tilted_left:', use_aliases=True)), callback_data='consultar')]])
         apresentacao = (f'Olá {nome}, sejá bem vindo(a)! Eu sou o @TraderMarketStockBot, um bot em python que usa a interface do telegram para te enviar informações sobre o mercado financeiro em tempo real de forma rápida e prática.') # msg de aprensentaçao
-        enviarMensagens(msgID, apresentacao, botao)
+        começar = (emoji.emojize(f'Você pode iniciar uma consulta apertando o botão abaixo :backhand_index_pointing_down: ou se quiser ser mais rápido apenas me envie um código para consulta a qualquer momento :eyes:', use_aliases=True))
+        enviarMensagens(msgID, apresentacao)
+        enviarMensagens(msgID, começar, botao)
 
     elif msg['text'] == '/consultar':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])

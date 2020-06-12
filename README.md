@@ -11,6 +11,8 @@ Microsoft VSCode 1.42.1 </br>
 Codificação: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br> 
 
+![traderbot-view]()
+
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
 * Utilização do módulo <strong>'telepot'</strong> https://github.com/nickoala/telepot
@@ -36,6 +38,8 @@ Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
 Coding: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br>
+
+![traderbot-view]()
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
