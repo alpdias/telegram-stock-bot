@@ -40,13 +40,9 @@ def empresa(codigo): # funçao para realizar o webscraping no site https://finan
     del listaNomeEmpresa[0]
     nomeEmpresa = ' '.join(listaNomeEmpresa)
     valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
-    empresa = (emoji.emojize(f'Empresa :office_building: {nomeEmpresa} \
+    empresa = (emoji.emojize(f'Empresa: {nomeEmpresa} :office_building: \
 \n\
-\n\
-Preço atual {codigo.upper()} \
-\n\
-\n\
-:money_bag: {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
+\n{codigo.upper()} :money_bag: {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
     return empresa 
 
 
@@ -55,13 +51,9 @@ def indice(codigo): # funçao para realizar o webscraping no site https://financ
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
-    indice = (emoji.emojize(f'Índice :chart_increasing: {nomeIndice[2]} \
+    indice = (emoji.emojize(f'Índice: {nomeIndice[2]} :chart_increasing:\
 \n\
-\n\
-Valor atual {codigo.upper()} \
-\n\
-\n\
-:label: {valorIndice} - Valor em pontos', use_aliases=True))
+\n{codigo.upper()} :label: {valorIndice} - Valor em pontos', use_aliases=True))
     return indice 
 
 
