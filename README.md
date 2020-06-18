@@ -11,7 +11,7 @@ Microsoft VSCode 1.42.1 </br>
 Codificação: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br> 
 
-![traderbot-view](https://github.com/alpdias/bot-telegram-python/blob/master/img/traderbot-view.png)
+![all-trader](https://github.com/alpdias/bot-telegram-python/blob/master/img/all-trader.png)
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
@@ -39,7 +39,7 @@ Microsoft VSCode 1.42.1 </br>
 Coding: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br>
 
-![traderbot-view](https://github.com/alpdias/bot-telegram-python/blob/master/img/traderbot-view.png)
+![all-trader](https://github.com/alpdias/bot-telegram-python/blob/master/img/all-trader.png)
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
