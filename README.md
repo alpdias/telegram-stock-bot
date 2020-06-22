@@ -18,7 +18,10 @@ pt-BR </br>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
-* <strong>Módulo 'telepot'</strong> https://github.com/nickoala/telepot
+* <strong>Módulo 'telepot':</strong> https://github.com/nickoala/telepot
+
+</br>
+</br>
 
 <strong>Módulos Python</strong>
 
@@ -49,7 +52,10 @@ pt-BR </br>
 
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
-* <strong>Module 'telepot'</strong> https://github.com/nickoala/telepot
+* <strong>Module 'telepot': </strong> https://github.com/nickoala/telepot
+
+</br>
+</br>
 
 <strong>Python modules</strong>
 
