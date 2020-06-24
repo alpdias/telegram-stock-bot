@@ -127,6 +127,8 @@ indices = ['GSPC', 'DJI', 'IXIC', 'NYA', 'XAX', 'BUK100P', 'RUT', 'VIX', 'FTSE',
 'N225', 'HSI', '000001.SS', 'STI', 'AXJO', 'AORD', 'BSESN', 'JKSE', 'KLSE', 'NZ50', 'KS11', 'TWII', 'GSPTSE', 'BVSP', 'MXX', 'IPSA', 'MERV', 
 'TA125.TA', 'CASE30', 'JN0U.JO'] # lista com os principais indices mundiais
 
+moedas = ['USD', 'BRL', 'JYP', 'GBP', 'CAD', 'EUR', 'CHF', 'ZAR', 'AUD', 'NOK', 'NZD', 'RUB', 'PLN', 'HKD', 'SGD', 'INR', 'TRY'] # lista com as principais moedas mundiais
+
 def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot e executar os comandos
     msgID = msg['chat']['id'] # variavel para receber o ID da conversa
     nome = msg['chat']['first_name'] # variavel para receber o nome do usuario que enviou a msg
@@ -171,7 +173,15 @@ def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot
             
         except IndexError:
                 enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
-
+                
+    elif msg['text'].upper() in moedas:
+        try:
+            botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]]) # botao para uma nova consulta
+            enviarMensagens(msgID, paridade(msg['text']), botao)
+            
+        except IndexError:
+            enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
+            
     else:
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Relatar Problema :prohibited:', use_aliases=True)), url='https://t.me/alpdias')]])
         invalido = (emoji.emojize(f'{nome}, desculpe mas não entendi o seu comando, ainda estou em construção e não consigo compreender muitas \
@@ -204,10 +214,11 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
         enviarMensagens(respostaID, consultar, botao)
 
     elif resposta == 'consultarMoedas':
-        botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
-        moeda = (emoji.emojize('Desculpe, mas está função ainda está em construção, tente realizar outra consulta por enquanto :backhand_index_pointing_down:', use_aliases=True)) # funçao a ser construida, para pesquisa de paridade de moedas
-        enviarMensagens(respostaID, moeda, botao)
-
+        moeda = (emoji.emojize('Qual a moeda você quer consultar? :money_with_wings:', use_aliases=True))
+        enviarMensagens(respostaID, moeda)
+        obsMoeda = (emoji.emojize('Atenção :exclamation mark: Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano.'))
+        enviarMensagens(respostaID, obsMoeda)
+        
     else:
         pass
 
