@@ -13,9 +13,15 @@ pt-BR </br>
 
 ![all-trader](https://github.com/alpdias/bot-telegram-python/blob/master/img/all-trader.png)
 
+</br>
+</br>
+
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
-* Utilização do módulo <strong>'telepot'</strong> https://github.com/nickoala/telepot
+* <strong>Módulo 'telepot':</strong> https://github.com/nickoala/telepot
+
+</br>
+</br>
 
 <strong>Módulos Python</strong>
 
@@ -41,9 +47,15 @@ pt-BR </br>
 
 ![all-trader](https://github.com/alpdias/bot-telegram-python/blob/master/img/all-trader.png)
 
+</br>
+</br>
+
 * <strong>API Telegram:</strong> https://core.telegram.org/bots/api
 
-* Module use <strong>'telepot'</strong> https://github.com/nickoala/telepot
+* <strong>Module 'telepot': </strong> https://github.com/nickoala/telepot
+
+</br>
+</br>
 
 <strong>Python modules</strong>
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 '''
 Criado em 02/2020
 Autor: Paulo https://github.com/alpdias
@@ -25,6 +26,7 @@ def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens 
     sleep(1)
     bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
 
+    
 '''
 def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     import locale
@@ -158,6 +160,7 @@ def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot
         try:
             botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]]) # botao para uma nova consulta
             enviarMensagens(msgID, empresa(msg['text']), botao)
+            
         except IndexError:
             enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webxcraping não funcione (não testado)
 
@@ -165,6 +168,7 @@ def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot
         try:
             botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=(emoji.emojize('Nova Consulta :clipboard:', use_aliases=True)), callback_data='novaConsulta')]]) # botao para uma nova consulta
             enviarMensagens(msgID, indice(msg['text']), botao)
+            
         except IndexError:
                 enviarMensagens(msgID, 'Desculpe, aconteceu um erro inesperado, tente novamente!') # erro caso a fonte/site do webscraping não funcione (não testado)
 
