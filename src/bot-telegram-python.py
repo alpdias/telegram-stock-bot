@@ -32,7 +32,7 @@ def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
     return (locale.format_string("%", n, grouping=True))
 '''
 
-def empresa(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
+def empresa(codigo): # funçao para realizar o webscraping de empresas no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     listaNomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
@@ -46,7 +46,7 @@ def empresa(codigo): # funçao para realizar o webscraping no site https://finan
     return empresa 
 
 
-def indice(codigo): # funçao para realizar o webscraping no site https://finance.yahoo.com/
+def indice(codigo): # funçao para realizar o webscraping de indices no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
@@ -55,6 +55,17 @@ def indice(codigo): # funçao para realizar o webscraping no site https://financ
 \n\
 \n{codigo.upper()} :label: {valorIndice} - Valor em pontos', use_aliases=True))
     return indice 
+
+
+def paridade(moeda): # funçao para realizar o webscraping de paridade no site https://finance.yahoo.com/
+    r = requests.get(f'https://finance.yahoo.com/quote/{moeda}=X?p={moeda}=X&.tsrc=fin-srch')
+    soup = bs4.BeautifulSoup(r.content, 'html.parser')
+    nomeMoeda = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
+    valorMoeda = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+    moeda = (emoji.emojize(f'Paridade: {nomeMoeda[2]} :currency_exchange:\
+\n\
+\n:dollar_banknote: {valorMoeda} - valor em {moeda}', use_aliases=True))
+    return moeda
 
 
 listaComandos = ['/start', '/consultar', '/dados', '/menu', '/info', '/ajuda'] # lista com o menu de comandos do bot dentro do telegram
