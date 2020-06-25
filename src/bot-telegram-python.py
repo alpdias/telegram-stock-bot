@@ -216,7 +216,7 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
     elif resposta == 'consultarMoedas':
         moeda = (emoji.emojize('Qual a moeda você quer consultar? :money_with_wings:', use_aliases=True))
         enviarMensagens(respostaID, moeda)
-        obsMoeda = (emoji.emojize('Atenção :exclamation mark: Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano.'))
+        obsMoeda = (emoji.emojize('Atenção :exclamation mark: Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano :dollar_banknote:', use_aliases=True))
         enviarMensagens(respostaID, obsMoeda)
         
     else:
