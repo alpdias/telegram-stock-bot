@@ -66,7 +66,7 @@ def paridade(moeda): # funçao para realizar o webscraping de paridade no site h
     valorMoeda = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
     moeda = (emoji.emojize(f'Paridade: {nomeMoeda[2]} :currency_exchange:\
 \n\
-\n:dollar_banknote: {valorMoeda} - valor em {moeda}', use_aliases=True))
+\n:dollar_banknote: {valorMoeda} - Valor em {moeda.upper()}', use_aliases=True))
     return moeda
 
 
@@ -216,7 +216,7 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
     elif resposta == 'consultarMoedas':
         moeda = (emoji.emojize('Qual a moeda você quer consultar? :money_with_wings:', use_aliases=True))
         enviarMensagens(respostaID, moeda)
-        obsMoeda = (emoji.emojize('Atenção :exclamation mark: Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano :dollar_banknote:', use_aliases=True))
+        obsMoeda = (emoji.emojize(':exclamation_mark:Atenção:exclamation_mark:Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano :dollar_banknote:', use_aliases=True))
         enviarMensagens(respostaID, obsMoeda)
         
     else:
