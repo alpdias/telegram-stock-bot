@@ -27,12 +27,13 @@ def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens 
     bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
 
     
-'''
-def padrao(n=0): # funçao para formatar os numeros de acordo com o padrao pt-BR
+
+def tratamento(n=0, formato=''): # funçao para formatar os numeros de acordo com o padrao selecionado
     import locale
-    locale.setlocale(locale.LC_ALL, "pt_BR.UTF-8")
-    return (locale.format_string("%", n, grouping=True))
-'''
+    
+    locale.setlocale(locale.LC_MONETARY, formato)
+    return locale.currency(n, grouping=True)
+
 
 def empresa(codigo): # funçao para realizar o webscraping de empresas no site https://finance.yahoo.com/
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
@@ -41,10 +42,11 @@ def empresa(codigo): # funçao para realizar o webscraping de empresas no site h
     del listaNomeEmpresa[0]
     del listaNomeEmpresa[0]
     nomeEmpresa = ' '.join(listaNomeEmpresa)
-    valorEmpresa = float(soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text)
+    valorEmpresa = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+    valorEmpresa = float(valorEmpresa.replace(',','')) # remover a virgula para poder converter em numerico
     empresa = (emoji.emojize(f'Empresa: {nomeEmpresa} :office_building: \
 \n\
-\n{codigo.upper()} :money_bag: {valorEmpresa:.2f} - Valor em BRL', use_aliases=True))
+\n{codigo.upper()} :money_bag: {tratamento(valorEmpresa, "pt_BR.UTF-8")} - Valor em BRL', use_aliases=True))
     return empresa 
 
 
@@ -53,6 +55,8 @@ def indice(codigo): # funçao para realizar o webscraping de indices no site htt
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+    valorIndice = float(valorIndice.replace(',','')) # remover a virgula para poder converter em numerico
+    valorIndice = tratamento(valorIndice).replace('R$','') # remover o simbolo de 'R$' valor em pontos
     indice = (emoji.emojize(f'Índice: {nomeIndice[2]} :chart_increasing:\
 \n\
 \n{codigo.upper()} :label: {valorIndice} - Valor em pontos', use_aliases=True))
@@ -64,6 +68,8 @@ def paridade(moeda): # funçao para realizar o webscraping de paridade no site h
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeMoeda = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorMoeda = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+    valorMoeda = float(valorMoeda.replace(',','')) # remover a virgula para poder converter em numerico
+    valorMoeda = tratamento(valorMoeda).replace('R$','') # remover o simbolo de 'R$' valor me pontos
     moeda = (emoji.emojize(f'Paridade: {nomeMoeda[2]} :currency_exchange:\
 \n\
 \n:dollar_banknote: {valorMoeda} - Valor em {moeda.upper()}', use_aliases=True))
