@@ -30,7 +30,6 @@ def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens 
 
 def tratamento(n=0, formato=''): # funçao para formatar os numeros de acordo com o padrao selecionado
     import locale
-    
     locale.setlocale(locale.LC_MONETARY, formato)
     return locale.currency(n, grouping=True)
 
