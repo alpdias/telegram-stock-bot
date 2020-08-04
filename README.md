@@ -2,9 +2,9 @@
 
 Python bot utilizando a API do telegram, com um script em python para gerenciar as informações e realizar um WebScraping para obter informações do mercado financeiro.
 
-<strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot (desativado)
+<strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot
 
-Andamento -> <strong>100%</strong> - Offline
+Andamento -> <strong>100%</strong> - Online
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
@@ -36,9 +36,9 @@ pt-BR </br>
 
 Python bot using the telegram API, with a python script to manage the information and perform a WebScraping to obtain information from the financial market.
 
-<strong>Talk to me:</strong> http://t.me/TraderMarketStockBot (disabled)
+<strong>Talk to me:</strong> http://t.me/TraderMarketStockBot
 
-Progress -> <strong>100%</strong> - Offline
+Progress -> <strong>100%</strong> - Online
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
