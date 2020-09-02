@@ -4,7 +4,7 @@ Python bot utilizando a API do telegram, com um script em python para gerenciar 
 
 <strong>Converse comigo:</strong> http://t.me/TraderMarketStockBot
 
-Andamento -> <strong>100%</strong> - Online
+Andamento -> <strong>100%</strong> - Offline
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
@@ -38,7 +38,7 @@ Python bot using the telegram API, with a python script to manage the informatio
 
 <strong>Talk to me:</strong> http://t.me/TraderMarketStockBot
 
-Progress -> <strong>100%</strong> - Online
+Progress -> <strong>100%</strong> - Offline
 
 Python 3.6.9 </br>
 Microsoft VSCode 1.42.1 </br>
