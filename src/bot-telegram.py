@@ -5,8 +5,10 @@ Criado em 02/2020
 Autor: Paulo https://github.com/alpdias
 '''
 
+# bibliotecas importadas
 from time import sleep
 import emoji
+import locale
 
 # bibliotecas para a API do telegram 'telepot' https://github.com/nickoala/telepot
 import telepot
@@ -21,61 +23,92 @@ token = 'token' # token de acesso
 
 bot = telepot.Bot(token) # telegram bot
 
-def enviarMensagens(msgID, texto, botao=''): # funçao para enviar as mensagens atravez do bot
+def enviarMensagens(msgID, texto, botao=''):
+    
+    """
+    -> Funçao para enviar as mensagens atravez do bot
+    """
     
     bot.sendChatAction(msgID, 'typing') # mostra a açao de 'escrever' no chat
     sleep(1)
+    
     bot.sendMessage(msgID, texto, reply_markup=botao) # retorna uma mensagem pelo ID da conversa + um texto + um botao
 
     
-def tratamento(n=0, formato=''): # funçao para formatar os numeros de acordo com o padrao selecionado
+def tratamento(n=0, formato=''):
     
-    import locale
+    """
+    -> Funçao para formatar os numeros de acordo com o padrao selecionado
+    """
+    
     locale.setlocale(locale.LC_MONETARY, formato)
+    
     return locale.currency(n, grouping=True)
 
 
-def empresa(codigo): # funçao para realizar o webscraping de empresas no site https://finance.yahoo.com/
+def empresa(codigo): 
+    
+    """
+    -> Funçao para realizar o webscraping de empresas no site https://finance.yahoo.com/
+    """
     
     r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     listaNomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
+    
     del listaNomeEmpresa[0]
     del listaNomeEmpresa[0]
+    
     nomeEmpresa = ' '.join(listaNomeEmpresa)
     valorEmpresa = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
     valorEmpresa = float(valorEmpresa.replace(',','')) # remover a virgula para poder converter em numerico
+    
     empresa = (emoji.emojize(f'Empresa: {nomeEmpresa} :office_building: \
 \n\
 \n{codigo.upper()} :money_bag: {tratamento(valorEmpresa, "pt_BR.UTF-8")} - Valor em BRL', use_aliases=True))
+                             
     return empresa 
 
 
-def indice(codigo): # funçao para realizar o webscraping de indices no site https://finance.yahoo.com/
+def indice(codigo): 
+                             
+    """
+    -> Funçao para realizar o webscraping de indices no site https://finance.yahoo.com/
+    """
                              
     r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+                             
     valorIndice = float(valorIndice.replace(',','')) # remover a virgula para poder converter em numerico
     valorIndice = tratamento(valorIndice).replace('R$','') # remover o simbolo de 'R$' valor em pontos
+                             
     indice = (emoji.emojize(f'Índice: {nomeIndice[2]} :chart_increasing:\
 \n\
 \n{codigo.upper()} :label: {valorIndice} - Valor em pontos', use_aliases=True))
+                             
     return indice 
 
 
-def paridade(moeda): # funçao para realizar o webscraping de paridade no site https://finance.yahoo.com/
+def paridade(moeda):
+                             
+    """
+    -> Funçao para realizar o webscraping de paridade no site https://finance.yahoo.com/
+    """
                              
     r = requests.get(f'https://finance.yahoo.com/quote/{moeda}=X?p={moeda}=X&.tsrc=fin-srch')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeMoeda = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorMoeda = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
+                             
     valorMoeda = float(valorMoeda.replace(',','')) # remover a virgula para poder converter em numerico
     valorMoeda = tratamento(valorMoeda).replace('R$','') # remover o simbolo de 'R$' valor me pontos
+                             
     moeda = (emoji.emojize(f'Paridade: {nomeMoeda[2]} :currency_exchange:\
 \n\
 \n:dollar_banknote: {valorMoeda} - Valor em {moeda.upper()}', use_aliases=True))
+                             
     return moeda
 
 
@@ -138,7 +171,11 @@ indices = ['GSPC', 'DJI', 'IXIC', 'NYA', 'XAX', 'BUK100P', 'RUT', 'VIX', 'FTSE',
 
 moedas = ['USD', 'BRL', 'JYP', 'GBP', 'CAD', 'EUR', 'CHF', 'ZAR', 'AUD', 'NOK', 'NZD', 'RUB', 'PLN', 'HKD', 'SGD', 'INR', 'TRY'] # lista com as principais moedas mundiais
 
-def receberMensagens(msg): # funçao para buscar as mensagens recebidas pelo bot e executar os comandos
+def receberMensagens(msg):
+                             
+    """
+    -> Funçao para buscar as mensagens recebidas pelo bot e executar os comandos
+    """
                              
     msgID = msg['chat']['id'] # variavel para receber o ID da conversa
     nome = msg['chat']['first_name'] # variavel para receber o nome do usuario que enviou a msg
@@ -200,7 +237,11 @@ ou problema entre em contato com o meu desenvolvedor via telegram, é só clicar
         enviarMensagens(msgID, invalido, botao)
 
 
-def responderMensagens(msg): # funçao para interagir com os botoes do bot dentro do telegram
+def responderMensagens(msg): 
+                             
+   """
+   -> Funçao para interagir com os botoes do bot dentro do telegram
+   """
                              
     msgID, respostaID, resposta = telepot.glance(msg, flavor='callback_query') # variaveis que recebem o 'callback query' da resposta (necessario 3 variaveis, o ID da conversa e o da resposta sao diferentes)
     
@@ -234,9 +275,9 @@ def responderMensagens(msg): # funçao para interagir com os botoes do bot dentr
         pass
 
                              
-# loop do modulo 'telepot' para procurar e receber novas mensagens, executando as funçoes
+### loop do modulo 'telepot' para procurar e receber novas mensagens, executando as funçoes ###
 bot.message_loop({'chat': receberMensagens, 'callback_query': responderMensagens}) 
 
-# loop em python para manter o programa rodando
+### loop em python para manter o programa rodando ###
 while True:
     pass
