@@ -7,7 +7,6 @@ Python bot utilizando a API do telegram, com um script em python para gerenciar 
 Andamento -> <strong>100%</strong> - Offline
 
 Python 3.6.9 </br>
-Microsoft VSCode 1.42.1 </br>
 Codificação: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br> 
 
@@ -41,7 +40,6 @@ Python bot using the telegram API, with a python script to manage the informatio
 Progress -> <strong>100%</strong> - Offline
 
 Python 3.6.9 </br>
-Microsoft VSCode 1.42.1 </br>
 Coding: -&lowast;- coding: utf-8 -&lowast;- </br>
 pt-BR </br>
 
