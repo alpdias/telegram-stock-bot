@@ -52,7 +52,9 @@ def empresa(codigo):
     -> Funçao para realizar o webscraping de empresas no site https://finance.yahoo.com/
     """
     
-    r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
+    cabecalho = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'} # adição de cabecalho na requisicao, sem isso o site não aceita mais a o download de dados
+    r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/', headers=cabecalho)
+    #r = requests.get(f'https://finance.yahoo.com/quote/{codigo}.SA/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     listaNomeEmpresa = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     
@@ -75,8 +77,9 @@ def indice(codigo):
     """
     -> Funçao para realizar o webscraping de indices no site https://finance.yahoo.com/
     """
-                             
-    r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
+    cabecalho = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'} # adição de cabecalho na requisicao, sem isso o site não aceita mais a o download de dados   
+    r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/', headers=cabecalho)                         
+    #r = requests.get(f'https://finance.yahoo.com/quote/^{codigo}/')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeIndice = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorIndice = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
@@ -96,8 +99,9 @@ def paridade(moeda):
     """
     -> Funçao para realizar o webscraping de paridade no site https://finance.yahoo.com/
     """
-                             
-    r = requests.get(f'https://finance.yahoo.com/quote/{moeda}=X?p={moeda}=X&.tsrc=fin-srch')
+    cabecalho = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'} # adição de cabecalho na requisicao, sem isso o site não aceita mais a o download de dados      
+    r = requests.get(f'https://finance.yahoo.com/quote/{moeda}=X?p={moeda}=X&.tsrc=fin-srch', headers=cabecalho)                     
+    #r = requests.get(f'https://finance.yahoo.com/quote/{moeda}=X?p={moeda}=X&.tsrc=fin-srch')
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
     nomeMoeda = soup.find_all('div',{'class': 'D(ib) Mt(-5px) Mend(20px) Maw(56%)--tab768 Maw(52%) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)'})[0].find('h1').text.split()
     valorMoeda = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)'})[0].find('span').text
@@ -242,36 +246,36 @@ def responderMensagens(msg):
    """
    -> Funçao para interagir com os botoes do bot dentro do telegram
    """
-                             
-    msgID, respostaID, resposta = telepot.glance(msg, flavor='callback_query') # variaveis que recebem o 'callback query' da resposta (necessario 3 variaveis, o ID da conversa e o da resposta sao diferentes)
-    
-    if resposta == 'consultar':
+   
+   msgID, respostaID, resposta = telepot.glance(msg, flavor='callback_query') # variaveis que recebem o 'callback query' da resposta (necessario 3 variaveis, o ID da conversa e o da resposta sao diferentes)
+   
+   if resposta == 'consultar':
         bot.answerCallbackQuery(msgID, text=(emoji.emojize('Carregando... :gear:', use_aliases=True))) # mostra um texto/alerta na tela do chat
         sleep(2)
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
         consultar = (emoji.emojize('Você quer consultar uma ação, um índice ou uma paridade de moeda? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(respostaID, consultar, botao)
 
-    elif resposta == 'consultarEmpresas':
+   elif resposta == 'consultarEmpresas':
         consultarEmpresas = 'Qual o código da ação que você quer consultar?'
         enviarMensagens(respostaID, consultarEmpresas)
 
-    elif resposta == 'consultarIndices':
+   elif resposta == 'consultarIndices':
         consultarIndices = 'Qual o código do índice que você quer consultar?'
         enviarMensagens(respostaID, consultarIndices)
 
-    elif resposta == 'novaConsulta':
+   elif resposta == 'novaConsulta':
         botao = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Ação', callback_data='consultarEmpresas')], [InlineKeyboardButton(text='Índice', callback_data='consultarIndices')], [InlineKeyboardButton(text='Moeda', callback_data='consultarMoedas')]])
         consultar = (emoji.emojize('Você quer consultar uma ação, um índice ou uma paridade de moeda? :thinking_face:', use_aliases=True)) # msg para identificar o tipo da consulta no webscraping
         enviarMensagens(respostaID, consultar, botao)
 
-    elif resposta == 'consultarMoedas':
+   elif resposta == 'consultarMoedas':
         moeda = (emoji.emojize('Qual a moeda você quer consultar? :money_with_wings:', use_aliases=True))
         enviarMensagens(respostaID, moeda)
         obsMoeda = (emoji.emojize(':exclamation_mark:Atenção:exclamation_mark:Envie apenas a sigla da moeda que você quer consultar, as moedas são equiparadas diante ao dólar americano :dollar_banknote:', use_aliases=True))
         enviarMensagens(respostaID, obsMoeda)
         
-    else:
+   else:
         pass
 
                              
